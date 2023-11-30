@@ -41,14 +41,15 @@ app.post('/register', async (req, res) => {
                 console.error('Error checking phone number:', checkErr);
                 res.status(500).json({ message: 'Registration failed' });
             } else if (checkResult.length > 0) {
-                res.json({ message: 'Phone number already registered' });
+                // Remain on the register.html page with an error message
+                res.redirect('/register.html?error=Phone%20number%20already%20registered');
             } else {
                 const insertQuery = 'INSERT INTO users (name, phone, password) VALUES (?, ?, ?)';
                 await db.query(insertQuery, [name, phone, hashedPassword]);
                 console.log('User registered');
 
-                // Send a JSON response indicating success
-                res.status(200).json({ message: 'Registration successful' });
+                // Redirect to the login.html page with a success message
+                res.redirect('/login.html?message=User%20successfully%20registered');
             }
         });
     } catch (error) {
