@@ -9,17 +9,19 @@
 </head>
 <body>
     <div class="container">
-        <form id="loginForm">
-            <label for="phone">Phone:</label>
-            <input type="tel" id="phone" name="phone" required>
+        <!-- login.html -->
+<!-- login.html -->
+<form id="loginForm" action="/login" method="post">
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" required>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
 
-            <button type="button" onclick="login()">Login</button>
-        </form>
+    <button type="submit">Login</button>
+</form>
+
+
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>

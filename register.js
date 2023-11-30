@@ -1,4 +1,3 @@
-// server.js
 const express = require('express');
 const path = require('path');
 const mysql = require('mysql');
@@ -47,7 +46,9 @@ app.post('/register', async (req, res) => {
                 const insertQuery = 'INSERT INTO users (name, phone, password) VALUES (?, ?, ?)';
                 await db.query(insertQuery, [name, phone, hashedPassword]);
                 console.log('User registered');
-                res.json({ message: 'Registration successful' });
+
+                // Send a JSON response indicating success
+                res.status(200).json({ message: 'Registration successful' });
             }
         });
     } catch (error) {
