@@ -5,7 +5,7 @@ const mysql = require('mysql');
 const bcrypt = require('bcrypt');
 
 const app = express();
-const port = 5000;
+const port = 5500;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -29,9 +29,8 @@ db.connect(err => {
 app.use(express.static(__dirname));
 
 // API endpoint for registration
-app.post('/register', async (req, res) => {
-    // Your registration logic here
-    res.json({ message: 'Registration successful' });
+app.post('/login', async (req, res) => {
+    // ... (registration logic)
 });
 
 // API endpoint for login
@@ -39,7 +38,7 @@ app.post('/login', (req, res) => {
     const { phone, password } = req.body;
 
     const selectQuery = 'SELECT * FROM users WHERE phone = ?';
-    db.query(selectQuery, [phone], async (selectErr, selectResult) => {
+    db.query(selectQuery, [phone], (selectErr, selectResult) => {
         if (selectErr) {
             console.error('Error selecting user:', selectErr);
             res.status(500).json({ message: 'Login failed' });
@@ -47,14 +46,16 @@ app.post('/login', (req, res) => {
             res.json({ message: 'User not found' });
         } else {
             const user = selectResult[0];
-            const passwordMatch = await bcrypt.compare(password, user.password);
-
-            if (passwordMatch) {
-                // Redirect to a new URL (replace 'dashboard.html' with your actual file)
-                res.redirect('/home.html');
-            } else {
-                res.json({ message: 'Incorrect password' });
-            }
+            bcrypt.compare(password, user.password, (compareErr, passwordMatch) => {
+                if (compareErr) {
+                    console.error('Error comparing passwords:', compareErr);
+                    res.status(500).json({ message: 'Login failed' });
+                } else if (passwordMatch) {
+                    res.sendFile(path.join(__dirname, 'views', 'home.html'));
+                } else {
+                    res.json({ message: 'Incorrect password' });
+                }
+            });
         }
     });
 });
