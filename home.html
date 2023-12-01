@@ -6,9 +6,17 @@
     <title>Welcome to annby</title>
     
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
         .map-container {
             display: flex;
-            justify-content: space-between;
             height: 400px;
             width: 100%;
             margin: 20px auto;
@@ -20,42 +28,79 @@
             border: 2px solid #000;
         }
 
-        .controls {
+        .controls-container {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
             box-sizing: border-box;
             -moz-box-sizing: border-box;
-            height: 32px;
-            width: 100%;
             margin-top: 10px;
         }
 
-        .controls input {
+        .controls {
             background-color: #ffffff;
             font-family: Roboto;
             font-size: 15px;
             font-weight: 300;
             padding: 0 11px 0 13px;
-            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .next-button-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .next-button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .my-orders-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 1;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to annby, enjoy riding with us😊</h1>
+    <h1>Thanks for choosing Go, enjoy riding with us!😊</h1>
     <div class="map-container">
-        <div style="width: 48%;">
+        <div style="width: 50%;" class="controls-container">
             <input id="pickup-input" class="controls" type="text" placeholder="Select the Pick Up Location">
             <div id="pickup-map" class="map"></div>
         </div>
-        <div style="width: 48%;">
-            <input id="dropoff-input" class="controls" type="text" placeholder="Select the Drop Off Location">
+        <div style="width: 50%;" class="controls-container">
+            <input id="dropoff-input" class="controls" type="text" placeholder="Drop Off Location">
             <div id="dropoff-map" class="map"></div>
         </div>
     </div>
+
+    <div class="next-button-container">
+        <button id="nextButton" class="next-button" onclick="redirectToAvailableRiders()">Next</button>
+    </div>
+
    <hr><hr><hr>
    <div>
-    <p>Are you a rider?   <a href="register.html">Register here</a>
-    <p>Already have an account?   <a href="login.html">Log in here</a>
+    <p>Are you a rider?   <a href="register.html">Register here</a></p>
+    <p>Already have an account?   <a href="login.html">Log in here</a></p>
    </div>
    
+   <!-- "My Orders" button -->
+   <a href="ordersclients.html" class="my-orders-button">My Orders</a>
+
     <script>
         var pickupMap, dropoffMap;
         var pickupMarker, dropoffMarker;
@@ -121,14 +166,16 @@
             initMap('pickup-map', 'pickup-input');
             initMap('dropoff-map', 'dropoff-input');
         }
+
+        function redirectToAvailableRiders() {
+            // Redirect the user to the availableriders.html page
+            window.location.href = "availableriders.html";
+        }
     </script>
 
     <!-- Use your actual API key here -->
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_KGdZrN9ovzNX7g8ZP9_mJZme7TagB6Y&callback=loadMaps">
     </script>
-
-    
-
 </body>
 </html>

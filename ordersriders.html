@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Status Check</title>
+</head>
+<body>
+
+    <h1>Order Status Check</h1>
+
+    <form action="#" method="post">
+        <label for="orderId">Order ID:</label>
+        <input type="text" id="orderId" name="orderId" required>
+
+        <br>
+
+        <label for="clientPhone">Client Phone:</label>
+        <input type="tel" id="clientPhone" name="clientPhone" pattern="[0-9]{10}" required>
+        <small>Enter a 10-digit phone number.</small>
+
+        <br>
+
+        <label for="orderStatus">Order Status:</label>
+        <select id="orderStatus" name="orderStatus" required>
+            <option value="pending">Pending</option>
+            <option value="processing">Completed</option>
+           
+        </select>
+
+        <br>
+
+        <input type="submit" value="Check Status">
+    </form>
+
+</body>
+</html>

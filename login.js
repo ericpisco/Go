@@ -57,7 +57,7 @@ app.post('/login', async (req, res) => {
                         phone: user.phone
                     };
                     
-                    res.json(res.redirect('/home.html'),{ message: 'Login successful' });
+                    res.json(res.redirect('/loggedinriders.html'),{ message: 'Login successful' });
                 } else {
                     res.json("Incorrect password");
                 }

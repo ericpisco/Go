@@ -1,14 +1,18 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>User Registration</title>
+    
 </head>
 <body>
+    
     <div class="container">
+        <h1>Register with Go</h1>
         <form id="registrationForm" action="http://localhost:5500/register" method="post">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -21,6 +25,8 @@
 
             <button type="submit">Register</button>
         </form>
+        <p>Already have an account?   <a href="login.html">Log in here</a></p>
+        <p> <a href="home.html">Return Home</a></p>
     </div>
 </body>
 </html>
