@@ -1,14 +1,19 @@
-// server.js
 const express = require('express');
-const path = require('path');
 const mysql = require('mysql');
 const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 const app = express();
 const port = 5500;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: 'Do we really always need a secrete key in express? I did not see this in PHP lol....',
+    resave: true,
+    saveUninitialized: true
+}));
 
 const db = mysql.createConnection({
     host: 'localhost',
@@ -25,41 +30,45 @@ db.connect(err => {
     }
 });
 
-// Serve static files from the root directory
-app.use(express.static(__dirname));
-
-// API endpoint for registration
-app.post('/login', async (req, res) => {
-    // ... (registration logic)
-});
-
 // API endpoint for login
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const { phone, password } = req.body;
 
-    const selectQuery = 'SELECT * FROM users WHERE phone = ?';
-    db.query(selectQuery, [phone], (selectErr, selectResult) => {
-        if (selectErr) {
-            console.error('Error selecting user:', selectErr);
-            res.status(500).json({ message: 'Login failed' });
-        } else if (selectResult.length === 0) {
-            res.json({ message: 'User not found' });
-        } else {
-            const user = selectResult[0];
-            bcrypt.compare(password, user.password, (compareErr, passwordMatch) => {
-                if (compareErr) {
-                    console.error('Error comparing passwords:', compareErr);
-                    res.status(500).json({ message: 'Login failed' });
-                } else if (passwordMatch) {
-                    res.sendFile(path.join(__dirname, 'views', 'home.html'));
+    try {
+        // Fetch user from the database
+        const selectQuery = 'SELECT * FROM users WHERE phone = ?';
+        db.query(selectQuery, [phone], async (selectErr, selectResult) => {
+            if (selectErr) {
+                console.error('Error selecting user:', selectErr);
+                res.status(500).json({ message: 'Login failed' });
+            } else if (selectResult.length === 0) {
+                res.json({ message: 'User not found' });
+            } else {
+                const user = selectResult[0];
+
+                // Compare the provided password with the hashed password
+                const passwordMatch = await bcrypt.compare(password, user.password);
+
+                if (passwordMatch) {
+                    // Store user data in session
+                    req.session.user = {
+                        id: user.id,
+                        name: user.name,
+                        phone: user.phone
+                    };
+                    
+                    res.json(res.redirect('/home.html'),{ message: 'Login successful' });
                 } else {
-                    res.json({ message: 'Incorrect password' });
+                    res.json("Incorrect password");
                 }
-            });
-        }
-    });
+            }
+        });
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'Login failed' });
+    }
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Login server is running on http://localhost:${port}`);
 });
