@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <h1 style="color: blue; position: fixed; top: 0; left: 0;">Go</h1>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Map with Marker</title>
@@ -13,7 +14,7 @@
 
         #map {
             height: 100vh;
-            width: 87%;
+            width: 86%;
             margin: 0 auto; /* Center the map horizontally */
         }
 
@@ -23,6 +24,18 @@
             right: 10px;
             padding: 10px;
             background-color: #4CAF50;
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        #logoutButton {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: #FF0000; /* Red background color for the "Log out" button */
             color: #fff;
             text-decoration: none;
             border: none;
@@ -66,8 +79,8 @@
 </head>
 <body>
     <a href="ordersriders.html" id="ordersButton">My Orders</a>
-    <p> <a href="home.html">Log out</a></p>
+    <p><a href="home.html" id="logoutButton">Log out</a></p>
     <div id="map"></div>
-    
 </body>
 </html>
+
